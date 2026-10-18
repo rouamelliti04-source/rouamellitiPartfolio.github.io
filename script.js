@@ -8,9 +8,9 @@
 
 /* =========================================================
    PARTIE 1 – DONNÉES
-   Images : mets tes fichiers dans le dossier assets/ puis écris leur nom
-   (ex. image: "assets/diplome-licence.jpg"). Sans champ image, aucune
-   vignette ne s'affiche et la carte prend toute la largeur.
+   Documents : mets tes fichiers dans le dossier assets/ puis écris leur nom
+   (ex. image: "assets/attestation-pfe.pdf"). Les images (.png, .jpg) et les
+   PDF (.pdf) sont acceptés. Sans champ image, aucune vignette ne s'affiche.
    ========================================================= */
 var LIENS = {
   linkedin: "https://www.linkedin.com/in/roua-melliti-438146288"
@@ -54,7 +54,8 @@ var ICONES = {
   language: '<path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 7 8M11 5c0 3.5-3 6.5-7 8"/><path d="M13 20l4-9 4 9M14.5 17h5"/>',
   users:    '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 5.2a3.2 3.2 0 010 5.6M21 20c0-2.6-1.5-4.8-3.6-5.6"/>',
   calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
-  flag:     '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'
+  flag:     '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
+  file:     '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path d="M14 3v5h5M9 13h6M9 17h4"/>'
 };
 function icone(nom) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONES[nom] || ICONES.code) + "</svg>"; }
 
@@ -143,7 +144,7 @@ var STAGES = [
       "Participation à l'intégration de solutions et à la résolution de problématiques techniques."
     ],
     outils: ["EVE-NG", "Réseaux", "Sécurisation"],
-    image: "assets/attestation-reseau.jpg",
+    image: "assets/attestation-reseau.pdf",
     imageLabel: "Attestation de stage"
   },
   {
@@ -157,7 +158,7 @@ var STAGES = [
       "Participation au cycle complet du projet : conception, développement et tests."
     ],
     outils: ["ASP.NET Core", "MVC", "Conception", "Tests"],
-    image: "assets/attestation-elite-info.jpg",
+    image: "assets/attestation-elite-info.pdf",
     imageLabel: "Attestation de stage"
   },
   {
@@ -172,7 +173,7 @@ var STAGES = [
       "Validation sur DVWA et OWASP Juice Shop : 39 vulnérabilités confirmées, aucun faux positif."
     ],
     outils: ["Python", "Flask", "Scrapy", "Playwright", "Nuclei", "DAST"],
-    image: "assets/attestation-pfe.jpg",
+    image: "assets/attestation-pfe.pdf",
     imageLabel: "Attestation de stage"
   }
 ];
@@ -197,7 +198,9 @@ var PROJETS = [
       { n: 60, suffixe: " %", label: "détection sur Juice Shop" }
     ],
     image: "assets/projet-scanner.png",
-    imageLabel: "Schéma ou capture du scanner",
+    imageLabel: "Capture du scanner",
+    video: "assets/demo-scanner.mp4",
+    videoLabel: "Démonstration du scanner",
     liens: []
   }
 ];
@@ -211,12 +214,13 @@ var ACTIVITES = [
     resume: "Missions variées en équipe : prospection digitale et prospection dans des salons d'exposition.",
     details: [
       "Trésorière sortante, aujourd'hui alumni de la junior entreprise.",
+      "Membre du Bureau Exécutif durant le mandat 2024-2025, distinguée par un certificat de reconnaissance.",
       "Gestion budgétaire et suivi de trésorerie de l'association, facturation et reporting financier.",
       "Collaboration avec l'équipe sur des missions variées : prospection digitale et prospection dans des salons d'exposition."
     ],
     outils: ["Trésorerie", "Gestion budgétaire", "Facturation", "Reporting financier", "Excel", "Prospection", "Travail d'équipe"],
-    image: "",
-    imageLabel: "Attestation de remerciement"
+    image: "assets/certificat-codex.pdf",
+    imageLabel: "Certificat de reconnaissance"
   },
   {
     titre: "Forum ISI Entreprise",
@@ -251,11 +255,38 @@ function initiales(nom) {
   if (mots.length > 1) return (mots[0][0] + mots[1][0]).toUpperCase();
   return nom.charAt(0).toUpperCase() + nom.charAt(1).toLowerCase();
 }
+
+/* Vrai si le fichier est un PDF */
+function estPdf(src) { return /\.pdf$/i.test(src || ""); }
+
+/* Petite vignette (cartes) : image, ou icône de document pour un PDF */
 function vignette(src, label) {
   if (!src) return '<div class="thumb empty"><span class="ph">' + esc(label) + "</span></div>";
+  if (estPdf(src)) {
+    return '<div class="thumb pdf">' + icone("file") + '<span class="ph-pdf">' + esc(label) + " (PDF)</span></div>";
+  }
   return '<div class="thumb"><img src="' + esc(src) + '" alt="' + esc(label) + '" loading="lazy" ' +
          'onerror="this.parentNode.classList.add(\'empty\');this.remove()"><span class="ph">' + esc(label) + " à ajouter</span></div>";
 }
+
+/* Aperçu complet (fenêtre de détail) : PDF affiché dans la page + bouton pour l'ouvrir */
+function apercuDocument(src, label) {
+  if (!estPdf(src)) return vignette(src, label);
+  return '<div class="doc-pdf">' +
+    '<iframe src="' + esc(src) + '#view=FitH" title="' + esc(label) + '" loading="lazy"></iframe>' +
+    '<a class="btn small primary" href="' + esc(src) + '" target="_blank" rel="noopener">Ouvrir le PDF</a>' +
+    "</div>";
+}
+
+/* Lecteur vidéo (fenêtre de détail) : la vidéo ne se lance que si on clique sur lecture */
+function apercuVideo(src, label) {
+  return '<div class="doc-video">' +
+    '<video controls preload="metadata" playsinline aria-label="' + esc(label) + '">' +
+    '<source src="' + esc(src) + '" type="video/mp4">' +
+    'Ton navigateur ne peut pas lire cette vidéo. <a href="' + esc(src) + '" target="_blank" rel="noopener">Ouvrir la vidéo</a>' +
+    "</video></div>";
+}
+
 function listeBadges(b) { return b && b.length ? '<ul class="badges">' + b.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : ""; }
 function listeOutils(o) { return o && o.length ? '<ul class="tags">' + o.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : ""; }
 
@@ -303,7 +334,7 @@ $("projects").innerHTML = PROJETS.map(function (p, i) {
   }).join("") + "</div>" : "";
   return '<div class="card h' + (p.image ? '' : ' noimg') + '" role="button" tabindex="0" data-kind="projet" data-i="' + i + '">' +
     (p.image ? vignette(p.image, p.imageLabel) : '') +
-    "<div>" + listeBadges([p.type]) +
+    "<div>" + listeBadges(p.video ? [p.type, "▶ Vidéo démo"] : [p.type]) +
     "<h3>" + esc(p.titre) + "</h3>" +
     '<p class="txt">' + esc(p.resume) + "</p>" +
     chiffres + listeOutils(p.outils) +
@@ -335,7 +366,8 @@ function contenuDetail(kind, i) {
   }
   if (e.details && e.details.length) h += "<h4>Réalisation</h4><ul class=\"pts\">" + e.details.map(function (d) { return "<li>" + esc(d) + "</li>"; }).join("") + "</ul>";
   if (e.outils) h += "<h4>Outils</h4>" + listeOutils(e.outils);
-  if (e.image) h += "<h4>" + esc(e.imageLabel || "Document") + "</h4>" + vignette(e.image, e.imageLabel || "Document");
+  if (e.video) h += "<h4>" + esc(e.videoLabel || "Vidéo") + "</h4>" + apercuVideo(e.video, e.videoLabel || "Vidéo");
+  if (e.image) h += "<h4>" + esc(e.imageLabel || "Document") + "</h4>" + apercuDocument(e.image, e.imageLabel || "Document");
   if (e.liens && e.liens.length) {
     h += '<div class="links">' + e.liens.map(function (l) { return '<a class="btn small primary" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.texte) + "</a>"; }).join("") + "</div>";
   }
@@ -352,6 +384,8 @@ document.addEventListener("keydown", function (e) {
 });
 $("dlgClose").addEventListener("click", function () { dlg.close(); });
 dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+/* Vide la fenêtre à la fermeture pour arrêter le chargement du PDF */
+dlg.addEventListener("close", function () { dlgBody.innerHTML = ""; });
 
 /* =========================================================
    PARTIE 4 – ANIMATIONS (GSAP + ScrollTrigger)
