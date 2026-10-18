@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roua Melliti Portfolio</title>
+  <meta name="description" content="Portfolio de Roua Melliti : réseaux, cybersécurité et développement, stages à Attijari Bank et Elite Info.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ============ MENU FLOTTANT ============ -->
+<nav class="nav" aria-label="Navigation principale">
+  <a class="brand" href="#apropos" aria-label="Accueil">RM</a>
+  <div class="nav-links">
+    <a href="#apropos">À propos</a>
+    <a href="#competences">Compétences</a>
+    <a href="#formation">Formation</a>
+    <a href="#stages">Stages</a>
+    <a href="#projets">Projets</a>
+    <a href="#activites">Vie associative</a>
+  </div>
+  <a class="nav-cta" href="#bientot">Stay tuned</a>
+</nav>
+
+<main>
+
+  <!-- ============ À PROPOS (présentation centrée) ============ -->
+  <header class="hero" id="apropos">
+    <div class="avatar">
+      <span class="ring" aria-hidden="true"></span>
+      <div class="avatar-in">
+        <span class="mono">RM</span>
+        <!-- Ta photo : place-la dans assets/photo.jpg, elle apparaîtra automatiquement -->
+        <img src="assets/photo.png" alt="Portrait de Roua Melliti" onerror="this.remove()">
+      </div>
+    </div>
+
+    <p class="eyebrow">Réseaux · Cybersécurité · Développement · Télécommunication</p>
+    <h1 class="name">Roua Melliti</h1>
+    <p class="role">Diplômée de l'Institut Supérieur d'Informatique, Ariana</p>
+    <p class="bio">Licence appliquée en ingénierie des systèmes informatiques et réseaux, trois stages (réseau et sécurité informatique à Attijari Bank, développement web chez Elite Info) et un outil DAST open source conçu en Python pour le SOC. À la recherche d'un poste permettant d'évoluer techniquement tout en poursuivant les études.</p>
+
+    <div class="btns">
+      <a class="btn primary" href="assets/cv de Roua Melliti.pdf.pdf">Télécharger le CV</a>
+    </div>
+    <ul class="meta">
+      <li>rouamelliti04@gmail.com</li>
+      <li>58 934 835</li>
+      <li>Ariana, Tunisie</li>
+    </ul>
+  </header>
+
+  <!-- Les sections ci-dessous sont remplies par script.js à partir des données en haut de ce fichier -->
+  <section id="competences">
+    <div class="sec-head"><h2 class="reveal-title">Compétences</h2><p>Les langages, outils et méthodes utilisés au quotidien.</p></div>
+    <div class="skills" id="skills"></div>
+  </section>
+
+  <section id="formation">
+    <div class="sec-head"><h2 class="reveal-title">Formation</h2><p>Cliquer sur une carte pour voir le détail et le diplôme.</p></div>
+    <div class="stack-list" id="education"></div>
+  </section>
+
+  <section id="stages">
+    <div class="sec-head"><h2 class="reveal-title">Stages</h2><p>Cliquer sur une carte pour voir les missions et l'attestation.</p></div>
+    <div class="grid-cards three" id="experience"></div>
+  </section>
+
+  <section id="projets">
+    <div class="sec-head"><h2 class="reveal-title">Projets</h2><p>Cliquer sur un projet pour voir le détail et les outils utilisés.</p></div>
+    <div class="stack-list" id="projects"></div>
+  </section>
+
+  <section id="activites">
+    <div class="sec-head"><h2 class="reveal-title">Vie associative</h2><p>Engagements, événements et compétitions.</p></div>
+    <div class="grid-cards three" id="activities"></div>
+  </section>
+
+  <section id="bientot">
+    <div class="soon">
+      <span class="live"><i></i>Prochainement</span>
+      <h2 class="reveal-title">Stay tuned</h2>
+      <p class="soon-lead">Un nouveau projet est en cours de réalisation. Les détails, les résultats et le code arriveront bientôt sur cette page.</p>
+      <div class="bar" aria-hidden="true"><span></span></div>
+      <p class="soon-note">Projet en cours de réalisation</p>
+      <a class="btn primary small" href="#" id="linkedin" target="_blank" rel="noopener">Suivre l'avancement sur LinkedIn</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <nav aria-label="Pied de page">
+    <a href="#apropos">À propos</a><a href="#competences">Compétences</a><a href="#formation">Formation</a>
+    <a href="#stages">Stages</a><a href="#projets">Projets</a><a href="#activites">Vie associative</a><a href="#bientot">Stay tuned</a>
+  </nav>
+</footer>
+
+<!-- Fenêtre de détail (s'ouvre au clic sur une carte) -->
+<dialog id="dlg" aria-labelledby="dlgTitle">
+  <button class="close" id="dlgClose" type="button" aria-label="Fermer">✕</button>
+  <div class="dlg-body" id="dlgBody"></div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
